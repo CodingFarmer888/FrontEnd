@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'; 
 
-const Menu = () => {
+const Menu = ({user}) => {
 
     const navigate = useNavigate();
 

@@ -106,6 +106,10 @@ ul {
 .navi-item {
 	margin: 5px 5px 5px 20px;
 }
+
+.navi-item.active {
+	color: brown;
+}
 .button-update-sc {
 	color: red;
 	margin: 5px 5px 5px 20px;
@@ -136,3 +140,8 @@ ul {
 table td {
 	padding: 5px;
 }
+
+a {
+	cursor: pointer; /* 或其他手形樣式值 */
+	color: rgb(0, 0, 190); /* 或其他顏色值 */
+  }

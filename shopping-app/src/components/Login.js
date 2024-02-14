@@ -10,7 +10,7 @@ const Login = ({setUser}) => {
     const [password, setPassword] = useState("");
     // 錯誤訊息
     const [errorMessage, setErrorMessage] = useState("");
-
+    // 導頁Hook
     const navigate = useNavigate();
 
     const changeUsername = (event) => {
@@ -21,6 +21,9 @@ const Login = ({setUser}) => {
         setPassword(event.target.value);
     }
 
+    /**
+     * 使用者登入，呼叫登入API，判斷帳密是否正確
+     */
     const loginAction = () => {
         axios.post("http://localhost:8080/login", {
             username: username,
@@ -36,12 +39,20 @@ const Login = ({setUser}) => {
             // 更新錯誤訊息狀態
             setErrorMessage(error.response.data.message);
         });
+    }
 
+    /**
+     * 重設輸入欄位
+     */
+    const reset = () => {
+        setUsername("");
+        setPassword("");
+        setErrorMessage("");
     }
 
     return (
         <>
-            <div className="page-title">Login</div>
+            <div className="page-title">登入頁</div>
 
             <div className="login-container">
                 <h3>輸入帳戶密碼</h3>
@@ -50,17 +61,17 @@ const Login = ({setUser}) => {
                     <tbody>
                         <tr>
                             <td>帳戶 *</td>
-                            <td><input name="username" onChange={changeUsername} /></td>
+                            <td><input name="username" value={username} onChange={changeUsername} /></td>
                         </tr>
                         <tr>
                             <td>密碼 *</td>
-                            <td><input type="password" name="password" onChange={changePassword} /></td>
+                            <td><input type="password" name="password" value={password} onChange={changePassword} /></td>
                         </tr>
                         <tr>
                             <td>&nbsp;</td>
                             <td>
                                 <input type="submit" value="Login" onClick={loginAction}/>
-                                <input type="reset" value="Reset" />
+                                <input type="reset" value="Reset" onClick={reset}/>
                             </td>
                         </tr>
                     </tbody>

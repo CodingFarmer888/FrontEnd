@@ -10,10 +10,17 @@ const Header = () => {
 
     const navigate = useNavigate();
 
+    /**
+     * 導頁共用方法
+     * @param {*} router 
+     */
     const changeRoute = (router) => {
         navigate(router);
     }
 
+    /**
+     * 登出，將使用者狀態清空，並導頁至登入頁
+     */
     const logoutHandler = () => {
         setUser(null);
         navigate('/login');

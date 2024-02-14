@@ -10,18 +10,18 @@ const Menu = ({user}) => {
     }
     return (
         <div className="menu-container" >
-            <a onClick={() => changeRoute("/")}>Home</a>
+            <a onClick={() => changeRoute("/")}>首頁</a>
             |
             <a onClick={() => changeRoute("/productList")}>
-                Product List
+                商品列表
             </a>
             |
             <a onClick={() => changeRoute("/shippingCart")}>
-                My Cart
+                購物車
             </a>
             |
             <a onClick={() => changeRoute("/orderList")}>
-                Order List
+                訂單列表
             </a>
             |
             <a>

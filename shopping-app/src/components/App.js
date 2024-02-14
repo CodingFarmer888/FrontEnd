@@ -10,6 +10,7 @@ import OrderList from './OrderList';
 import ShippingCart from './ShippingCart';
 
 import UserContext from '../context/UserContext';
+import Customer from './Customer';
 
 const App = () => {
 
@@ -26,6 +27,7 @@ const App = () => {
                     <Route path="/productList" element={<ProductList />} />
                     <Route path="/shippingCart" element={<ShippingCart />} />
                     <Route path="/orderList" element={<OrderList />} />
+                    <Route path="/customer" element={<Customer />} />
 
                 </Routes>
                 <Footer />

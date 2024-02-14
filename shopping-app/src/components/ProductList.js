@@ -1,89 +1,63 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import ProductItem from './ProductItem';
 
 const ProductList = () => {
+    // 商品列表
+    const [productList, setProductList] = useState([]);
+
+    // 分頁資訊
+    const [pages, setPages] = useState({});
+
+    // 當前頁面
+    const [currentPageNo, setCurrentPageNo] = useState(0);
+
+    useEffect(() => {
+        console.log(`invoke api:/products/${currentPageNo}/{pageSize}`);
+        let pageSize = 6;
+        axios.get(`http://localhost:8080/products/${currentPageNo}/${pageSize}`)
+            .then(response => {
+                let productPage = response.data;
+                console.log("productPage:", productPage);
+                let content = productPage.content;
+                setPages(productPage);
+                setCurrentPageNo(productPage.number);
+                setProductList(content);
+            });
+    }, [currentPageNo]);
+
+    // 解構分頁資訊
+    const {first, last, number, totalPages} = pages ?? {};
+
+    // 分頁
+    let navItems = [];
+    for (let index = 0; index < totalPages; index += 1) {
+        navItems.push(<a className={`navi-item ${number === index ? "active" : ""}`} key={index} onClick={(event) => changePage(event, index)}>{index + 1}</a>);
+    }
+
+    const changePage = (event, pageNo) => {
+        // 防止a標籤Route行為
+        event.preventDefault();
+        // 直接將currentPage設定為指定頁面，當頁App元件useEffect偵測到currentPage改變時，會重新取得資料
+        setCurrentPageNo(pageNo)
+    }
+
     return (
         <>
-
             <div className="page-title">商品列表</div>
+            {
+                // 商品列表
+                productList.map(p => <ProductItem key={p.code} product={p}/>)
+            }
 
-            <div className="product-preview-container">
-                <ul>
-                    <li><img className="product-image" /></li>
-                    <li>Code: <span>XXX</span></li>
-                    <li>Name: <span>Name</span></li>
-                    <li>Price: <span>123</span></li>
-                    <li>
-                        <a>Buy Now</a>
-                    </li>
-                </ul>
-            </div>
-  
-            <div className="product-preview-container">
-                <ul>
-                    <li><img className="product-image" /></li>
-                    <li>Code: <span>XXX</span></li>
-                    <li>Name: <span>Name</span></li>
-                    <li>Price: <span>123</span></li>
-                    <li>
-                        <a>Buy Now</a>
-                    </li>
-                </ul>
-            </div>
-
-            <div className="product-preview-container">
-                <ul>
-                    <li><img className="product-image" /></li>
-                    <li>Code: <span>XXX</span></li>
-                    <li>Name: <span>Name</span></li>
-                    <li>Price: <span>123</span></li>
-                    <li>
-                        <a>Buy Now</a>
-                    </li>
-                </ul>
-            </div>
-
-            <div className="product-preview-container">
-                <ul>
-                    <li><img className="product-image" /></li>
-                    <li>Code: <span>XXX</span></li>
-                    <li>Name: <span>Name</span></li>
-                    <li>Price: <span>123</span></li>
-                    <li>
-                        <a>Buy Now</a>
-                    </li>
-                </ul>
-            </div>
-
-            <div className="product-preview-container">
-                <ul>
-                    <li><img className="product-image" /></li>
-                    <li>Code: <span>XXX</span></li>
-                    <li>Name: <span>Name</span></li>
-                    <li>Price: <span>123</span></li>
-                    <li>
-                        <a>Buy Now</a>
-                    </li>
-                </ul>
-            </div>
-
-            <div className="product-preview-container">
-                <ul>
-                    <li><img className="product-image" /></li>
-                    <li>Code: <span>XXX</span></li>
-                    <li>Name: <span>Name</span></li>
-                    <li>Price: <span>123</span></li>
-                    <li>
-                        <a>Buy Now</a>
-                    </li>
-                </ul>
-            </div>
             <br />
-            <div className="page-navigator">
+            {
+                totalPages > 1 &&            
+                <div className="page-navigator">
+                    {navItems}
+                </div>
+            }
 
-                <a className="nav-item"></a>
-
-                <span className="nav-item"> ... </span>
-            </div>
         </>
     );
 }

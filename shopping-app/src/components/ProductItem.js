@@ -1,6 +1,5 @@
 import React from 'react';
-import axios from 'axios';
-import Toast from './Toast';
+import { request } from '../utils/AxiosUtils';
 
 const ProductItem = ({ product }) => {
     const { code, name, price, imageUrl } = product;
@@ -11,13 +10,14 @@ const ProductItem = ({ product }) => {
     const addProductToCart = (event, code) => {
         event.preventDefault();
         console.log("addProductToCart Code: ", code);
-        axios.get(`http://localhost:8080/cart/${code}`, {
-            withCredentials: true, // 設定認證
-        }).then(response => {
+
+        request(
+            "POST",
+            `cart/${code}`
+        ).then(response => {
             console.log(response);
             alert("商品加入購物車成功");
         });
-
     }
 
     return (

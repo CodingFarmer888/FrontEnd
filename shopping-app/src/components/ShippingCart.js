@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useState } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from 'axios';
+import { request } from '../utils/AxiosUtils';
 import CartLineInfo from './CartLineInfo';
 import EmptyCart from './EmptyCart';
 
@@ -11,10 +11,10 @@ const ShippingCart = () => {
     const location = useLocation();
     
     useLayoutEffect(() => {
-        axios.get("http://localhost:8080/shoppingCart",{
-            withCredentials: true, // 設定認證
-        })
-        .then(response => {
+        request(
+            "GET",
+            "shoppingCart"
+        ).then(response => {
             let cartLineInfo = response.data;
             console.log(cartLineInfo);
             setCartLineInfos(cartLineInfo);
@@ -23,10 +23,10 @@ const ShippingCart = () => {
     }, [location]);
 
     const removeProductFromCart = (code) => {
-        axios.get(`http://localhost:8080/shoppingCartRemoveProduct/${code}`,{
-            withCredentials: true
-        })
-        .then(response => {
+        request(
+            "DELETE",
+            `shoppingCartRemoveProduct/${code}`
+        ).then(response => {
             let cartLineInfo = response.data;
             console.log(cartLineInfo);
             setCartLineInfos(cartLineInfo);
@@ -42,12 +42,21 @@ const ShippingCart = () => {
 
             {
                 cartLineInfos && cartLineInfos.map(info => <CartLineInfo key={info.productInfo.code} info={info} removeProductFromCart={removeProductFromCart}/>)
+            
+            }
+            {
+                (cartLineInfos && cartLineInfos.length > 0 ) && (
+                    <>
+                        <div style={{clear: "both"}}></div>
+                        <input className="button-update-sc" type="submit" value="修改數量" />
+                        <a className="navi-item" onClick={() => {navigator("/customer")}}>輸入客戶訊息</a>
+                        <a className="navi-item" onClick={() => {navigator("/productList")}}>繼續購買</a>
+                    </>
+                )
             }
 
-            <div style={{clear: "both"}}></div>
-			<input className="button-update-sc" type="submit" value="修改數量" />
-			<a className="navi-item" onClick={() => {navigator("/customer")}}>輸入客戶訊息</a>
-			<a className="navi-item" onClick={() => {navigator("/productList")}}>繼續購買</a>
+
+
         </>
     );
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import ProductItem from './ProductItem';
+import { request } from '../utils/AxiosUtils';
 
 const ProductList = () => {
     // 商品列表
@@ -15,15 +15,19 @@ const ProductList = () => {
     useEffect(() => {
         console.log(`invoke api:/products/${currentPageNo}/{pageSize}`);
         let pageSize = 6;
-        axios.get(`http://localhost:8080/products/${currentPageNo}/${pageSize}`)
-            .then(response => {
-                let productPage = response.data;
-                console.log("productPage:", productPage);
-                let content = productPage.content;
-                setPages(productPage);
-                setCurrentPageNo(productPage.number);
-                setProductList(content);
-            });
+
+        request(
+            "GET",
+            `products/${currentPageNo}/${pageSize}`
+        ).then(response => {
+            let productPage = response.data;
+            console.log("productPage:", productPage);
+            let content = productPage.content;
+            setPages(productPage);
+            setCurrentPageNo(productPage.number);
+            setProductList(content);
+        });
+
     }, [currentPageNo]);
 
     // 解構分頁資訊
@@ -57,7 +61,6 @@ const ProductList = () => {
                     {navItems}
                 </div>
             }
-
         </>
     );
 }

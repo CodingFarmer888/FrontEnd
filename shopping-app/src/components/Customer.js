@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { request } from '../utils/AxiosUtils';
 
 const Customer = () => {
     const [formData, setFormData] = useState({});
+
+    const navigate = useNavigate();
 
     const changeHandler = (event) => {
         const { name, value } = event.target;
@@ -12,7 +16,17 @@ const Customer = () => {
     }
 
     const checkout = () => {
-        console.log("formData", formData);
+        request(
+            "POST",
+            `checkout`, formData
+        ).then(response => {
+            console.log(response);
+            // 將確認頁的資料往shippingCartConfirm傳遞
+            let cartInfo = response.data;
+            // state是固定
+            navigate("/shippingCartConfirm", { state: cartInfo });
+
+        });
     }
 
     return (
@@ -50,7 +64,7 @@ const Customer = () => {
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
-                        <td><input type="submit" value="儲存" onClick={checkout}/>
+                        <td><input type="submit" value="儲存" onClick={checkout} />
                             <input type="reset" value="重置" />
                         </td>
                     </tr>

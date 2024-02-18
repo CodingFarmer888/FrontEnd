@@ -11,6 +11,7 @@ import ShippingCart from './ShippingCart';
 
 import UserContext from '../context/UserContext';
 import Customer from './Customer';
+import ShippingCartConfirm from './ShippingCartConfirm';
 
 const App = () => {
 
@@ -28,6 +29,7 @@ const App = () => {
                     <Route path="/shippingCart" element={<ShippingCart />} />
                     <Route path="/orderList" element={<OrderList />} />
                     <Route path="/customer" element={<Customer />} />
+                    <Route path='/shippingCartConfirm' element={<ShippingCartConfirm />} />
 
                 </Routes>
                 <Footer />

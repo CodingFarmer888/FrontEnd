@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { request } from '../utils/AxiosUtils';
 import { useNavigate } from 'react-router-dom';
 
 const Login = ({setUser}) => {
@@ -25,10 +25,14 @@ const Login = ({setUser}) => {
      * 使用者登入，呼叫登入API，判斷帳密是否正確
      */
     const loginAction = () => {
-        axios.post("http://localhost:8080/login", {
-            username: username,
-            password: password
-        }).then((response) => {
+        request(
+            "POST",
+            "login",
+            {
+                username: username,
+                password: password
+            }
+        ).then((response) => {
             console.log(response.data);
             let user = response.data;
             // 登入成功，將使用者資料set至App元件

@@ -16,7 +16,7 @@ const Menu = ({user}) => {
                 商品列表
             </a>
             |
-            <a onClick={() => changeRoute("/shippingCart")}>
+            <a onClick={() => changeRoute("/shoppingCart")}>
                 購物車
             </a>
             |
@@ -24,8 +24,8 @@ const Menu = ({user}) => {
                 訂單列表
             </a>
             |
-            <a>
-                Create Product
+            <a onClick={() => changeRoute("/addProduct")}>
+                新增商品
             </a>
             |
         </div>

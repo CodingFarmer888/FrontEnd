@@ -1,26 +1,26 @@
 import React from 'react';
 
 const CartLineInfo = ({ info , removeProductFromCart}) => {
-    const { productInfo, amount, quantity } = info;
+    const { product, quantity, totalAmount } = info;
 
     const removeProduct = () => {
-        removeProductFromCart(productInfo.code);
+        removeProductFromCart(product.code);
     }
     return (
         <div className="product-preview-container">
             <ul>
-                <li><img className="product-image" src={productInfo.imageUrl} alt=""/>
+                <li><img className="product-image" src={product.imageUrl} alt=""/>
                 </li>
-                <li>商品編號：<span>{productInfo.code}</span>
+                <li>代碼：<span>{product.code}</span>
                 </li>
-                <li>商品名稱：<span>{productInfo.name}</span></li>
+                <li>名稱：<span>{product.name}</span></li>
                 <li>單價：
-                    <span className="price">{productInfo.price}</span>
+                    <span className="price">{product.salesPrice}</span>
                 </li>
                 <li>數量：{quantity}
                 </li>
                 <li>小計：
-                    <span>{amount}</span>
+                    <span>{totalAmount}</span>
                 </li>
                 <li>
                     <a onClick={removeProduct}>

@@ -1,6 +1,7 @@
 import React, {useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserContext from '../context/UserContext';
+import { request } from '../utils/AxiosUtils';
 
 const Header = () => {
     // 取得UserContext.Provider所提供的user，使用useContext可以不用將user當作props傳遞
@@ -19,11 +20,21 @@ const Header = () => {
     }
 
     /**
-     * 登出，將使用者狀態清空，並導頁至登入頁
+     * 登出
      */
     const logoutHandler = () => {
-        setUser(null);
-        navigate('/login');
+        // 呼叫後端登出作業
+        request(
+            "POST",
+            "logout"
+        ).then((response) => {
+            console.log('Logout', response.data);
+            // 將使用者狀態清空，並導頁至登入頁
+            setUser(null);
+            navigate('/login');
+        }).catch((error) => {
+            console.log("error", error.response.data);
+        });
     }
     return (
         <div className="header-container">

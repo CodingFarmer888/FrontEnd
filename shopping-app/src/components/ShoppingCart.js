@@ -4,20 +4,21 @@ import { request } from '../utils/AxiosUtils';
 import CartLineInfo from './CartLineInfo';
 import EmptyCart from './EmptyCart';
 
-const ShippingCart = () => {
-
-    const [cartLineInfos, setCartLineInfos] = useState([]);
+const ShoppingCart = () => {
     const navigator = useNavigate();
     const location = useLocation();
+
+    const [cart, setCart] = useState({});
+    const { itemList } = cart;
     
     useLayoutEffect(() => {
         request(
             "GET",
-            "shoppingCart"
+            "cart"
         ).then(response => {
-            let cartLineInfo = response.data;
-            console.log(cartLineInfo);
-            setCartLineInfos(cartLineInfo);
+            let cart = response.data;
+            console.log("cart", cart);
+            setCart(cart);
         });
     // 透過location判斷當下的是否需要重新Render
     }, [location]);
@@ -25,11 +26,11 @@ const ShippingCart = () => {
     const removeProductFromCart = (code) => {
         request(
             "DELETE",
-            `shoppingCartRemoveProduct/${code}`
+            `cart/${code}`
         ).then(response => {
-            let cartLineInfo = response.data;
-            console.log(cartLineInfo);
-            setCartLineInfos(cartLineInfo);
+            let cart = response.data;
+            console.log("cart", cart);
+            setCart(cart);
         });
     }
 
@@ -37,15 +38,15 @@ const ShippingCart = () => {
         <>
             <div className="page-title">我的購物車</div>
             {
-                (cartLineInfos && cartLineInfos.length === 0) && <EmptyCart />
+                (itemList && itemList.length === 0) && <EmptyCart />
             }
 
             {
-                cartLineInfos && cartLineInfos.map(info => <CartLineInfo key={info.productInfo.code} info={info} removeProductFromCart={removeProductFromCart}/>)
+                itemList && itemList.map(info => <CartLineInfo key={info.code} info={info} removeProductFromCart={removeProductFromCart}/>)
             
             }
             {
-                (cartLineInfos && cartLineInfos.length > 0 ) && (
+                (itemList && itemList.length > 0 ) && (
                     <>
                         <div style={{clear: "both"}}></div>
                         <input className="button-update-sc" type="submit" value="修改數量" />
@@ -54,11 +55,8 @@ const ShippingCart = () => {
                     </>
                 )
             }
-
-
-
         </>
     );
 }
 
-export default ShippingCart;
+export default ShoppingCart;

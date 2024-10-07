@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const Login = ({setUser}) => {
 
     // 帳號
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     // 密碼
     const [password, setPassword] = useState("");
     // 錯誤訊息
@@ -13,8 +13,8 @@ const Login = ({setUser}) => {
     // 導頁Hook
     const navigate = useNavigate();
 
-    const changeUsername = (event) => {
-        setUsername(event.target.value);
+    const changeEmail = (event) => {
+        setEmail(event.target.value);
     }
 
     const changePassword = (event) => {
@@ -29,7 +29,7 @@ const Login = ({setUser}) => {
             "POST",
             "login",
             {
-                username: username,
+                email: email,
                 password: password
             }
         ).then((response) => {
@@ -49,7 +49,7 @@ const Login = ({setUser}) => {
      * 重設輸入欄位
      */
     const reset = () => {
-        setUsername("");
+        setEmail("");
         setPassword("");
         setErrorMessage("");
     }
@@ -64,8 +64,8 @@ const Login = ({setUser}) => {
                 <table>
                     <tbody>
                         <tr>
-                            <td>帳戶 *</td>
-                            <td><input name="username" value={username} onChange={changeUsername} /></td>
+                            <td>EMAIL *</td>
+                            <td><input name="email" value={email} onChange={changeEmail} /></td>
                         </tr>
                         <tr>
                             <td>密碼 *</td>
@@ -82,13 +82,6 @@ const Login = ({setUser}) => {
                 </table>
 
                 <span className="error-message">{errorMessage}</span>
-            </div>
-            <div>
-                <h3>帳號/密碼:</h3>
-                <ul>
-                    <li>Mary/m123</li>
-                    <li>George/g123</li>
-                </ul>
             </div>
         </>
     );
